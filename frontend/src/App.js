@@ -3,11 +3,12 @@ import Login from "./Components/Login";
 import Register from "./Components/Register";
 import Navbar from "./Components/Navbar";
 import Home from "./Components/Home";
+import Post from "./Components/Post";
 
 function App() {
   return (
     <div>
-     <Home/>
+     <Post/>
     </div>
   );
 }

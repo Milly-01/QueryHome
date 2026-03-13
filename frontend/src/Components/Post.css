@@ -1,0 +1,38 @@
+.margin-me{
+    margin: 20px;
+}
+
+.margin-me h1{
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 2px;;
+    margin: 20px;
+    
+}
+
+.my-titles{
+    margin: 10px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: green;
+}
+
+.btn-publish{
+    border: 0;
+    border: 1px solid green;
+    display: block;
+    margin: 20px;
+    text-align: center;
+    padding: 10px 20px;
+    border-radius: 10px;
+    transition: 0.25s;
+    font-weight: bold;
+}
+
+    
+.btn-publish:hover{
+    background-color: #2ecc71;
+    color: white;
+  }
+
