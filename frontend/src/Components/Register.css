@@ -1,0 +1,64 @@
+.register-me {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: #34495e;
+    z-index: 10;
+  }
+
+  .my-box{
+    padding: 30px;
+    background: #191919;
+    text-align: center;
+    margin-top: 70px;
+  }
+
+  .my-inputs{
+    border: 0;
+    border: 2px solid green;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    padding: 15px;
+    color: white;
+    border-radius: 30px;
+    transition: 0.25s;
+  }
+
+  .heading-register{
+    color: white;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+  }
+
+  .my-inputs:hover{
+    width: 80%;
+    border: 1px solid blue;
+  }
+
+ .submit-register{
+    border: 0;
+    border: 1px solid green;
+    background: none;
+    display: block;
+    margin: 20px auto; 
+    text-align: center;
+    padding: 15px 30px; 
+    color: white;
+    border-radius: 20px;
+    transition: 0.25s;
+    font-weight: bold;
+ }
+
+ .submit-register:hover{
+  background-color: #2ecc71;
+}
+
+
+.link-login{
+  text-decoration: none;
+}
