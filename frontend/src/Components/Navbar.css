@@ -1,0 +1,36 @@
+.nav-color{
+    background-color: #282A3A; 
+    /* padding: 30px; */
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    box-shadow: 1px 1px 5px gray, -1px -1px 5px gray;
+    
+}
+
+.toggler-icon{
+    background-color: #ffffff
+}
+
+.navbar-toggler{
+    border: 1px solid white;
+}
+.brand-style{
+    color: green;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.my-links{
+    color: white;
+    font-weight: bold;
+    margin: 5px 20px;
+}
+
+.my-links:hover{
+    color: blue;
+    font-size: 1.2rem;
+}
+
+.my-links:focus{
+    color: blue;
+}
