@@ -1,12 +1,19 @@
 import React, {useState} from "react";
 import "./Login.css";
 
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+
+import axios from "axios";
+
+import Swal from "sweetalert2";
 
 function Login(){
 
     const [u_email, setEmail] = useState("");
     const [u_password, setPassword] = useState("");
+   // const [message,setMessage] = useState("");
+
+    const navigate = useNavigate();
 
     function handleEmail(event){
         setEmail(event.target.value);
@@ -16,9 +23,39 @@ function Login(){
         setPassword(event.target.value);
     }
 
-    function handleSubmitLoginForm(event){
+    async function handleSubmitLoginForm(event){
         event.preventDefault();
-        alert(u_email);
+        try{
+            const res = await axios.post(`http://localhost:5000/login`,{u_email,u_password});
+
+       //  setMessage(res.data.message);
+         Swal.fire(
+            'Login!',
+            `${res.data.message}`,
+            'success'
+        )
+        //  console.log("Logged in user:",res.data.user);
+        //  alert("Logged on");
+        //  alert(res.data.message);
+        navigate("/home");
+         }catch(err){
+
+
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: `${err.response.data.error}`,
+        })  
+
+        //alert(err.response.data.error);
+
+            // if(err.response){
+            //     setMessage(err.response.data.error);
+            // }else{
+            //     setMessage("Server error");
+            // }
+
+    }
     }
 
 
@@ -37,7 +74,7 @@ function Login(){
                             <input required className="my-inputs" type="password" placeholder="Password" onChange={handlePassword} value={u_password}></input>
                             <button type="submit" className="submit-login">Submit</button>
                         </form>
-                        {/* <Link to={"/register"} className="link-register">Don't have an account? Register.</Link> */}
+                       <Link to={"/register"} className="link-register">Don't have an account? Register.</Link>
                     </div>
 
                 </div>

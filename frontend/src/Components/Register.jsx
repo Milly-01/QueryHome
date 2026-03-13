@@ -4,6 +4,8 @@ import "./Register.css";
 import {Link} from "react-router-dom";
 import {useState} from "react";
 
+import axios from "axios";
+import Swal from "sweetalert2";
 
 
 
@@ -13,6 +15,8 @@ function Register(){
     const [u_password, setPassword] = useState("");
     const [u_name, setName] = useState("");
     const [u_surname, setSurname] = useState("");
+
+    //const [message, setMessage] = useState("");
 
     function handleEmail(event){
         setEmail(event.target.value);
@@ -31,12 +35,39 @@ function Register(){
     }
 
 
-    function handleSubmitRegisterForm(event){
-        event.preventDefault();
-        alert(u_name);
-        alert(u_surname);
-    }
+    async function handleSubmitRegisterForm(event){
+          event.preventDefault();
 
+          alert("Form submited");
+          try{
+
+      const res = await axios.post(`http://localhost:5000/register`,{u_name, u_surname, u_email, u_password});
+
+           Swal.fire(
+                'Register!',
+                `${res.data.message}`,
+                'success'
+            )
+
+
+    }catch(err){
+
+           Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: `${err.response.data.error}`,
+            })  
+
+
+    //   if(err.response){
+    //     setMessage(err.response.data.error);
+    //   }else{
+    //     setMessage("Server error");
+    //   }
+
+    }
+      
+    }
     
 
     return(
@@ -53,7 +84,8 @@ function Register(){
                             <input required className="my-inputs" type="password" placeholder="Password" onChange={handlePassword} value={u_password}></input>
                             <button type="submit" className="submit-register">Submit</button>
                         </form>
-                        {/* <Link to={"/login"} className="link-login">Already have an account? Login.</Link> */}
+
+                        <Link to={"/login"} className="link-login">Already have a verified account? Login.</Link>
                     </div>
 
                 </div>
