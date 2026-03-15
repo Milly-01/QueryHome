@@ -3,54 +3,75 @@ import Navbar from "./Navbar";
 import { useState } from "react";
 import "./Post.css";
 
+import { useContext } from "react";
+import { UserContext } from "./UserContext";
+
+import Swal from "sweetalert2";
+
+import axios from "axios";
+
 function Post(){
 
 
     const [u_title, setTitle] = useState(""); 
     const [u_post, setPost] = useState("");
     const [u_email, setEmail] = useState("");
-    const [u_date, setDate] = useState("");
-    const [u_time, setTime] = useState("");
-    const [u_vote, setVote] = useState(0);
-    const [u_file, setFile] = useState(null);
+
+    const {send_u_email_everywhere, setSendUEmailEvery} = useContext(UserContext);
+    const {send_u_name_everywhere, setSendUNameEvery} = useContext(UserContext);
+
+
 
 
 
     function handleTitle(event){
         setTitle(event.target.value);
-
-        var today = new Date();
-        var options = {
-            weekday: "long",
-            day: "numeric",
-            month: "long"
-        }
-        var day = today.toLocaleDateString("en-US", options);
-        setDate(day);
-    
-        var now = today.toLocaleTimeString();
-        setTime(now);
-
-       // setEmail(u_send_everywhere);
-        // setEmail(location.state.current_user_email);
-        // //////////////////////////////
+        setEmail(send_u_email_everywhere);
     }
 
     function handlePost(event){
         setPost(event.target.value);
     }
 
+    async function handleSubmitComposePost(event){
+    event.preventDefault();
 
+    try {
 
+      const response = await axios.post("http://localhost:5000/post",{u_title, u_post, u_email});
 
-    function handleSubmitComposePost(event){
-        event.preventDefault();
+      if (response.data.success) {
+        
+        Swal.fire(
+        'Question Posted!',
+        `${response.data.message}`,
+        'success'
+         )
+      }
+
+    } catch (error) {
+
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: `${error.response.data.error}`,
+        }) 
+
+    //   if (error.response) {
+    //     alert(error.response.data.message);
+    //   } else {
+    //     alert("Server error");
+    //   }
+
     }
+
+  };
 
 
     return(
         <div>
             <Navbar/>
+            <div className="initials">{send_u_name_everywhere.charAt(0)}</div>
             <div className="margin-me">
                 <h1>Ask a Question</h1>
                 <form onSubmit={handleSubmitComposePost}>

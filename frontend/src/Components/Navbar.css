@@ -34,3 +34,14 @@
 .my-links:focus{
     color: blue;
 }
+
+
+.initials{
+    width: 40px;
+    height: 40px;
+    margin: 10px;
+    border: px solid blue;
+    border-radius: 50%;
+    color: white;
+    text-align: center;    
+}

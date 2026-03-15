@@ -66,17 +66,22 @@ app.post("/register", function(req, res){
 
         // Build a **safe verification link**
         const verificationUrl = `${process.env.FRONTEND_URL}/verify-email/${token}`;
-        console.log("Verification link:", verificationUrl);
+
 
         transporter.sendMail({
           from: process.env.EMAIL_USER,
           to: u_email,
-          subject: "Verify Your Email",
+          subject: "Query Home: Verify Your Email to activate your accoount.",
           html: `<p>Hello ${u_name},</p>
-                 <p>Click <a href="${verificationUrl}">here</a> to verify your email. This link expires in 24 hours.</p>`,
+                <p>Thank you for registering an account with QueryHome</p>
+                <p>Click <a href="${verificationUrl}">here</a> to verify your email and activate your account. You will not be able to login until you do so. This link expires in 24 hours.</p>
+                <br> <br> <br> <br> <br>
+                <hr>
+                <p><em>Support Team</em></p>
+                `,
         });
 
-        return res.json({ message: "Registration successful! Check your email and click the link to verify your account. You will not be able to Login until you do so."});
+        return res.json({ message: "Registration successful! Check your email and click the link to verify your email and activate your account. You will not be able to Login until you do so."});
       }
     );
   });
@@ -113,17 +118,17 @@ app.get("/verify/:token", (req, res) => {
 
 
 ////Delete unverified accounts
-cron.schedule("0 * * * *", () => { // every hour
-  const now = new Date();
-  db.query("DELETE FROM users WHERE is_verified = 0 AND token_expires < ?", [now], function(err, result){
-    if (err){
-     console.error(err);
-    }
-     else{
-    console.log(`Deleted ${result.affectedRows} expired unverified users`);
-     } 
-});
-});
+// cron.schedule("0 0 * * *", () => { // every hour
+//   const now = new Date();
+//   db.query("DELETE FROM users WHERE is_verified = 0 AND token_expires < ?", [now], function(err, result){
+//     if (err){
+//      console.error(err);
+//     }
+//      else{
+//     console.log(`Deleted ${result.affectedRows} expired unverified users`);
+//      } 
+// });
+// });
 
 
 
@@ -132,16 +137,16 @@ cron.schedule("0 * * * *", () => { // every hour
 //Login
 app.post("/login", async function(req, res){
 
-  const { u_email, u_password } = req.body;
+  const { u_name, u_email, u_password } = req.body;
 
-  db.query("SELECT * FROM application_users WHERE email = ?",[u_email], async function(err, results){
+  db.query("SELECT * FROM application_users WHERE email = ? AND name = ? ",[u_email, u_name], async function(err, results){
 
       if(err){
         return res.status(500).json({error:"Database error"});
       }
 
       if(results.length === 0){
-        return res.status(401).json({error:"Invalid email or password"});
+        return res.status(401).json({error:"Invalid name, email or password"});
       }
 
       const user = results[0];
@@ -179,12 +184,56 @@ app.post("/login", async function(req, res){
 
 
 
+/////////////////////Compose a post
+app.post("/post", function(req, res){
+
+  const {u_title, u_post, u_email } = req.body;
+
+  db.query("INSERT INTO post_questions (title, body, user_email) VALUES (?, ?, ?)", [u_title, u_post, u_email], function(err, result){
+
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Failed to post question"
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Question posted successfully"
+    });
+
+  });
+
+});
 
 
 
+//////////////////all posts
+app.get("/allposts", function(req, res){
 
+  // const sql = `
+  //   SELECT q.id, q.title, q.created_at, u.name, u.surname
+  //   FROM questions q
+  //   JOIN application_users u 
+  //   ON q.user_email = u.email
+  //   ORDER BY q.created_at DESC
+  // `;
 
+  db.query("SELECT p.id, p.title, p.body, p.user_email, p.created_at, a.name, a.surname FROM post_questions p JOIN application_users a ON p.user_email = a.email ORDER BY p.created_at DESC ", function(err, results){
 
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Failed to fetch questions"
+      });
+    }
+
+    res.json(results);
+
+  });
+
+});
 
 
 

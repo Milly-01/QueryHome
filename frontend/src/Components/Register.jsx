@@ -38,7 +38,6 @@ function Register(){
     async function handleSubmitRegisterForm(event){
           event.preventDefault();
 
-          alert("Form submited");
           try{
 
       const res = await axios.post(`http://localhost:5000/register`,{u_name, u_surname, u_email, u_password});
