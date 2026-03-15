@@ -238,7 +238,56 @@ app.get("/allposts", function(req, res){
 
 
 
+/////////////////////Ansewrs a post
+app.post("/answer", function(req, res){
 
+  const {loc_question_id, my_answer, send_u_email_everywhere} = req.body;
+
+  db.query("INSERT INTO answers_of_posts (question_id, body, user_email) VALUES (?, ?, ?)", [loc_question_id, my_answer, send_u_email_everywhere], function(err, result){
+
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Failed to answer question"
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Question Answered successfully"
+    });
+
+  });
+
+});
+
+///////////////////////////////////////////////////////////////////
+
+///////////////Get answers
+app.get("/answers", function(req, res){
+
+  // const sql = `
+  //   SELECT q.id, q.title, q.created_at, u.name, u.surname
+  //   FROM questions q
+  //   JOIN application_users u 
+  //   ON q.user_email = u.email
+  //   ORDER BY q.created_at DESC
+  // `;
+
+  db.query("SELECT id, question_id, body, user_email, created_at FROM answers_of_posts", function(err, results){
+
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Failed to fetch questions"
+      });
+    }
+
+    res.json(results);
+
+  });
+
+});
 
 
 const PORT = process.env.PORT || 5000;

@@ -6,6 +6,7 @@ import Navbar from "./Components/Navbar";
 import Home from "./Components/Home";
 import Post from "./Components/Post";
 import AllPosts from "./Components/AllPosts";
+import Answers from "./Components/Answers";
 
 
 import {BrowserRouter, Routes, Route} from "react-router-dom";
@@ -62,6 +63,7 @@ function App() {
                   <Route path={"/home"} element={<Home/>}/>
                   <Route path={"/post"} element={<Post/>}/>
                   <Route path={"/allposts"} element={<AllPosts/>}/>
+                  <Route path={"/answers"} element={<Answers/>}/>
           </Routes>
       </UserContext.Provider>    
 

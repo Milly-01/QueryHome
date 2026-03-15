@@ -37,7 +37,7 @@ function AllPosts(){
                 posts.map( post => (
                     <div className="all-posts">
                          <p className="post-title">
-                         <Link className="style-link" to={"/post"} state={{s_id:post._id ,s_title: post.p_title, s_post: post.p_post, s_vote: post.p_vote, s_email: post.p_emailaddress, s_date: post.p_date, s_time: post.p_time}}>{post.title}</Link>
+                         <Link className="style-link" to={"/answers"} state={{question_id:post.id ,question_title: post.title, question_post: post.body, question_email: post.user_email, question_date: post.created_at, question_name: post.name, question_surname: post.surname}}>{post.title}</Link>
                          </p>
                          {/* <p>{post.u_post.substring(0, 100) + "..."}</p> */}
                          <p>{post.body}</p>

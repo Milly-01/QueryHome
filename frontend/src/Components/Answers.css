@@ -1,0 +1,149 @@
+.answers-heading{
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-size:1.8rem;
+    margin-top: 20px;
+    /* color: green; */
+    
+}
+
+
+.my-anwer-text-area{
+    border: none;
+    box-shadow: 2px 1px 3px green;
+    margin: 20px;
+
+}
+
+.form-control{
+    width: 80%;
+    /* display: flex; */
+    margin: 20px;
+}
+
+
+.your-answer{
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin: 20px;
+}
+
+.answer-div{
+    margin-top: 50px;
+}
+
+.answer-button{
+    border: 0;
+    border: 1px solid green;
+    background: none;
+    display: block;
+    margin: 20px; 
+    text-align: center;
+    padding: 15px 30px; 
+    border-radius: 20px;
+    transition: 0.25s;
+    font-weight: bold;
+}
+
+.answer-button:hover{
+    background-color: green;
+    color: white;
+}
+
+
+.the-actual-question{
+    box-shadow: 1px 2px 2px lightgray, -1px -2px 2px lightgray;
+    padding: 20px 20px 100px 20px;
+    margin: 20px 10px 20px 10px;
+
+}
+
+
+
+.the-actual-actual-question{
+    box-shadow: 1px 2px 2px lightgray, -1px -2px 2px lightgray;
+    padding: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #E9E8E8;
+
+}
+
+.loc-title{
+    letter-spacing: 2px;
+    font-size: 1.5rem;
+    color: green;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.like-buttons{
+    border: 0;
+    border: 1px solid green;
+    background: none;
+    text-align: center;
+    padding: 5px 10px; 
+    border-radius: 5px; 
+    transition: 0.25s;
+    font-weight: bold;
+    margin: 10px;
+
+}
+
+.like-buttons:hover{
+    background-color: green;
+    color: white;
+}
+
+.post-label{
+    float: right;
+    margin-top: 70px;
+    margin-right: 10px;
+    color: blue;
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-size: 0.8rem;
+
+}
+
+
+.contain-answer{
+    margin-left: 50px;
+    border: 1px solid lightgray;
+    padding: 20px;
+}
+
+.contain-answer2{
+    margin: 20px;
+}
+
+
+.you-div{
+    display: inline-block;
+    color: white;
+    background: #262A56;
+    font-size: 0.5rem;
+    padding: 2px 4px;
+
+}
+
+.answers-1{
+    padding: 20px;
+    background-color: #E9E8E8;
+    margin-top: 20px;
+}
+
+.float-us{
+    margin: 5px;
+    color: blue;
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-size: 0.7rem;
+}
+
+
+.del-ed{
+    float: right;
+    margin-right: 15px;
+}
