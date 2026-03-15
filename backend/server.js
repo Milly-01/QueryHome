@@ -274,7 +274,7 @@ app.get("/answers", function(req, res){
   //   ORDER BY q.created_at DESC
   // `;
 
-  db.query("SELECT id, question_id, body, user_email, created_at FROM answers_of_posts", function(err, results){
+  db.query("SELECT aop.id, aop.question_id, aop.body, aop.user_email, aop.created_at, pq.id, au.name, au.surname, au.email FROM answers_of_posts aop JOIN post_questions pq ON aop.question_id = pq.id JOIN application_users au ON aop.user_email = au.email", function(err, results){
 
     if (err) {
       return res.status(500).json({
