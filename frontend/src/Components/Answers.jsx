@@ -134,7 +134,7 @@ function Answers(){
                        <p>{answer.body}</p>
                     </div>
 
-                    <label class="float-us">{answer.created_at}</label>
+                    <label class="float-us">{new Date(answer.created_at).toLocaleString()}</label>
                     {/* <label class="float-us">{answer.a_date}</label> */}
                     <hr></hr>
                   
@@ -159,6 +159,7 @@ function Answers(){
     return(
         <div>
             <Navbar/>
+              <div className="initials">{send_u_name_everywhere.charAt(0)}</div>
             <h1 className="answers-heading">The Question</h1>
 
             <div className="the-actual-question">
@@ -174,7 +175,7 @@ function Answers(){
                 {/* <button onClick={handleClickUpVote} className="like-buttons"><i class="fa-solid fa-thumbs-up"></i></button> */}
                 {/* <button onClick={handleClickDownVote} className="like-buttons"><i class="fa-solid fa-thumbs-down"></i></button> */}
                 {/* <button className="like-buttons">{loc_vote}</button> */}
-                <label className="post-label">{loc_question_date}</label>
+                <label className="post-label">{new Date(loc_question_date).toLocaleString()}</label>
                 {/* <label className="post-label">{loc_time}</label> */}
             </div>
 

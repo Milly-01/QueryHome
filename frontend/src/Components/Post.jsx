@@ -10,6 +10,8 @@ import Swal from "sweetalert2";
 
 import axios from "axios";
 
+import { useNavigate } from "react-router-dom";
+
 function Post(){
 
 
@@ -19,6 +21,9 @@ function Post(){
 
     const {send_u_email_everywhere, setSendUEmailEvery} = useContext(UserContext);
     const {send_u_name_everywhere, setSendUNameEvery} = useContext(UserContext);
+
+
+    const navigate = useNavigate();
 
 
 
@@ -64,6 +69,8 @@ function Post(){
     //   }
 
     }
+
+    navigate("/allposts");
 
   };
 

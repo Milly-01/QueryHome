@@ -365,6 +365,75 @@ app.post("/vote-answer", function (req, res) {
 });
 
 
+/////Manage Posts
+app.post("/manageposts", function(req, res){
+    const {send_u_email_everywhere} = req.body;
+
+
+    const query = `
+    SELECT 
+        pq.id AS post_ID,
+        pq.title AS post_title,
+        pq.body AS post_body,
+        pq.created_at AS post_created_at,
+        au.name AS author_name,
+        au.surname AS author_surname,
+        au.email AS author_email,
+
+        -- Total answers count
+        COUNT(aop.id) AS total_answers,
+
+        -- Aggregate answers into JSON array
+        JSON_ARRAYAGG(
+            JSON_OBJECT(
+                'answer_ID', aop.id,
+                'answer_body', aop.body,
+                'answer_author_email', aop.user_email,
+                'answer_created_at', aop.created_at,
+                'total_likes', COALESCE(likes.total_likes, 0),
+                'total_dislikes', COALESCE(likes.total_dislikes, 0),
+                'user_vote', COALESCE(user_vote.user_vote, NULL)
+            )
+        ) AS answers
+
+    FROM post_questions pq
+    JOIN application_users au ON pq.user_email = au.email
+    LEFT JOIN answers_of_posts aop ON aop.question_id = pq.id
+
+    -- Aggregate likes/dislikes per answer
+    LEFT JOIN (
+        SELECT 
+            answer_id,
+            SUM(CASE WHEN vote_type = 1 THEN 1 ELSE 0 END) AS total_likes,
+            SUM(CASE WHEN vote_type = -1 THEN 1 ELSE 0 END) AS total_dislikes
+        FROM answer_votes
+        GROUP BY answer_id
+    ) AS likes ON likes.answer_id = aop.id
+
+    -- Logged-in user vote per answer
+    LEFT JOIN (
+        SELECT answer_id, vote_type AS user_vote
+        FROM answer_votes
+        WHERE user_email = ?
+    ) AS user_vote ON user_vote.answer_id = aop.id
+
+    WHERE pq.user_email = ?
+    GROUP BY pq.id, pq.title, pq.body, pq.created_at, au.name, au.surname, au.email
+    ORDER BY pq.created_at DESC;
+  `;
+
+    db.query(query, [send_u_email_everywhere, send_u_email_everywhere], (err, results) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Database query failed" });
+    }
+    console.log(results);
+    res.json(results);
+  });
+
+});
+
+
 
 
 

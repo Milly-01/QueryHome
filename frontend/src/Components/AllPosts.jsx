@@ -50,7 +50,7 @@ function AllPosts(){
                             {send_u_email_everywhere === post.user_email?  <label>Posted by: <div className="you-div">You</div></label>:   <label>Posted by: <div className="others-div">{post.name + " " + post.surname}</div></label>}
 
 
-                            <label class="float-me">{post.created_at}</label>
+                            <label class="float-me">{new Date(post.created_at).toLocaleString()}</label>
                             {/* <label class="float-me l">{post.p_time}</label> */}
                            
                          </div>

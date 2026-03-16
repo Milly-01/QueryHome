@@ -25,6 +25,10 @@ function Home(){
         navigate("/allposts");
     }
 
+    function handleMangePosts(){
+        navigate("/manage");
+    }
+
     return(
        
         <div className="my-home">
@@ -49,17 +53,17 @@ function Home(){
                     </div>
                 </div>
                 <div className="term">
-                    <div className="box-component">
+                    <div className="box-component" onClick={handleMangePosts}>
                         <p>Manage Your Posts</p>
                         <i class="fa-solid fa-list-check f-size"></i>
                     </div>
                 </div>
-                <div className="term">
+                {/* <div className="term">
                     <div className="box-component">
                         <p>View Your Profile</p>
                         <i class="fa-solid fa-user f-size"></i>
                     </div>
-                </div>
+                </div> */}
        
 
             </dl>

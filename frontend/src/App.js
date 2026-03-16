@@ -7,6 +7,7 @@ import Home from "./Components/Home";
 import Post from "./Components/Post";
 import AllPosts from "./Components/AllPosts";
 import Answers from "./Components/Answers";
+import ManageMyPosts from "./Components/ManageMyPosts";
 
 
 import {BrowserRouter, Routes, Route} from "react-router-dom";
@@ -64,6 +65,7 @@ function App() {
                   <Route path={"/post"} element={<Post/>}/>
                   <Route path={"/allposts"} element={<AllPosts/>}/>
                   <Route path={"/answers"} element={<Answers/>}/>
+                  <Route path={"/manage"} element={<ManageMyPosts/>}/>
           </Routes>
       </UserContext.Provider>    
 
