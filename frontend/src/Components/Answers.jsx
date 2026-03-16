@@ -12,6 +12,10 @@ import axios from "axios";
 
 import Swal from "sweetalert2";
 
+import AnswerVote from "./AnswerVote";
+
+
+
 function Answers(){
 
     const {send_u_email_everywhere, setSendUEmailEvery} = useContext(UserContext);
@@ -51,8 +55,8 @@ function Answers(){
     //         })
     // }); 
 
-        useEffect(function(){
-              setLocQuestionID(location.state.question_id);
+        function fetchAnswerData(){
+                   setLocQuestionID(location.state.question_id);
             setLocQuestionEmail(location.state.question_email);
             setLocQuestionTitle(location.state.question_title);
             setLocQuestionPost(location.state.question_post);
@@ -65,7 +69,12 @@ function Answers(){
             .then(function(response){
                 setAnswers(response.data);
             })
-    }); 
+        }
+
+        useEffect(() => {
+            fetchAnswerData();
+       
+    },[]); 
 
 
 
@@ -101,6 +110,8 @@ function Answers(){
             }) 
 
         }
+
+          fetchAnswerData();
        
     }
 
@@ -110,9 +121,14 @@ function Answers(){
 
     /////////////////////anser function
      function answerComponent(answer){
+        console.log(answer);
         return(
             <div className="contain-answer2">
+            
+            
                 <div className="contain-answer">
+                  <label className="dislikee">Dislikes: {answer.total_dislikes}</label>
+                    <label className="likee">Likes: {answer.total_likes}</label>  
                     {send_u_email_everywhere === answer.user_email? <label>Answer By: <div className="you-div">You</div></label>: <label>Answer By: {answer.name} {answer.surname}</label>}
                     <div className="answers-1">
                        <p>{answer.body}</p>
@@ -120,6 +136,13 @@ function Answers(){
 
                     <label class="float-us">{answer.created_at}</label>
                     {/* <label class="float-us">{answer.a_date}</label> */}
+                    <hr></hr>
+                  
+                    <AnswerVote 
+                    answerId={answer.answer_ID}
+                    refreshAnswerData={fetchAnswerData}    
+                    />
+                    
 
                 
                 </div>

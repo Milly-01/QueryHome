@@ -1,0 +1,32 @@
+
+
+.my-vote-buttons{
+    float: right;
+}
+
+
+.like-btn{
+    background: black;
+    color: white;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-right: 10px;
+}
+
+.like-btn:hover{
+    color: green;
+}
+
+
+.dislike-btn{
+    background: blue;
+    color: white;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-right: 10px;
+}
+
+
+.dislike-btn:hover{
+    color: red;
+}

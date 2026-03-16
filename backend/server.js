@@ -274,7 +274,7 @@ app.get("/answers", function(req, res){
   //   ORDER BY q.created_at DESC
   // `;
 
-  db.query("SELECT aop.id, aop.question_id, aop.body, aop.user_email, aop.created_at, pq.id, au.name, au.surname, au.email FROM answers_of_posts aop JOIN post_questions pq ON aop.question_id = pq.id JOIN application_users au ON aop.user_email = au.email", function(err, results){
+  db.query("SELECT aop.id AS answer_ID, aop.question_id, aop.body, aop.user_email, aop.created_at, pq.id AS post_ID, au.name, au.surname, au.email, av.answer_id, COALESCE(SUM(CASE WHEN av.vote_type = 1 THEN 1 ELSE 0 END), 0) AS total_likes, COALESCE(SUM(CASE WHEN av.vote_type = -1 THEN 1 ELSE 0 END), 0) AS total_dislikes FROM answers_of_posts aop JOIN post_questions pq ON aop.question_id = pq.id JOIN application_users au ON aop.user_email = au.email LEFT JOIN answer_votes av ON av.answer_id = aop.id GROUP BY aop.id, aop.question_id, aop.body, aop.user_email, aop.created_at, pq.id, au.name, au.surname, au.email;", function(err, results){
 
     if (err) {
       return res.status(500).json({
@@ -283,11 +283,90 @@ app.get("/answers", function(req, res){
       });
     }
 
+    console.log(results);
     res.json(results);
 
   });
 
 });
+
+
+
+//////////Voting
+app.post("/vote-answer", function (req, res) {
+
+  const { answerId, send_u_email_everywhere, voteType } = req.body;
+
+  db.query(
+    "SELECT * FROM answer_votes WHERE answer_id=? AND user_email=?",
+    [answerId, send_u_email_everywhere],
+    function (err, existingVoteRows) {
+
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: "Server error" });
+      }
+
+      // 1️⃣ User has NOT voted yet → INSERT
+      if (existingVoteRows.length === 0) {
+
+        db.query(
+          "INSERT INTO answer_votes (answer_id, user_email, vote_type) VALUES (?, ?, ?)",
+          [answerId, send_u_email_everywhere, voteType],
+          function (err2) {
+            if (err2){
+              return res.status(500).json({ error: "Server error" });
+            }else{
+               res.json({ message: "Vote added" });
+            }
+           
+          }
+        );
+
+      }
+
+      // 2️⃣ User clicked SAME vote → DELETE
+      else if (existingVoteRows[0].vote_type === voteType) {
+
+        db.query(
+          "DELETE FROM answer_votes WHERE answer_id=? AND user_email=?",
+          [answerId, send_u_email_everywhere],
+          function (err2) {
+            if (err2){
+               return res.status(500).json({ error: "Server error" });
+            }else{
+                  res.json({ message: "Vote removed" });
+            }
+        
+          }
+        );
+
+      }
+
+      // 3️⃣ User SWITCHED vote → UPDATE
+      else {
+
+        db.query(
+          "UPDATE answer_votes SET vote_type=? WHERE answer_id=? AND user_email=?",
+          [voteType, answerId, send_u_email_everywhere],
+          function (err2) {
+            if (err2){
+              return res.status(500).json({ error: "Server error" });
+            }else{
+               res.json({ message: "Vote updated" });
+            }
+           
+          }
+        );
+
+      }
+    }
+  );
+});
+
+
+
+
 
 
 const PORT = process.env.PORT || 5000;
